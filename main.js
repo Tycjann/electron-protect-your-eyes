@@ -16,7 +16,7 @@ function main() {
   })
 
   // auto open DevTools
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // load app/index.html as the window content
   mainWindow.loadFile(path.join('app', 'index.html'));

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { render } from 'react-dom';
 
-
 // import Container from '../components/common/Container/Container';
 // import Header from '../components/common/Header/Header';
 // import TopInformation from '../components/common/TopInformation/TopInformation';
@@ -34,11 +33,8 @@ const TopInformation = () => {
   );
 };
 
-
-
-
 class App extends React.Component {
-  
+
   constructor(props) {
     
     super(props);
@@ -47,7 +43,14 @@ class App extends React.Component {
       time: '0',
       timer: 'null',
     };
-    
+
+    this.settings = {
+      timeWork: 1200,
+      timeRest: 20,
+      soundBell: './sounds/bell.wav', 
+      imageWork: './images/work.png',
+      imageRest: './images/rest.png',
+    }
   }
 
   formatTime = (time) => {
@@ -61,7 +64,7 @@ class App extends React.Component {
   }
 
   playBell = () => {
-    const audioElement = new Audio('./sounds/bell.wav');
+    const audioElement = new Audio(this.settings.soundBell);
     audioElement.play();
   };
 
@@ -74,14 +77,14 @@ class App extends React.Component {
         this.playBell();
         this.setState({
           status: 'rest',
-          time: 20,
+          time: this.settings.timeRest,
         });
       }
       if (status === 'rest') {
         this.playBell();
         this.setState({
           status: 'work',
-          time: 1200,
+          time: this.settings.timeWork,
         });
       }
     };
@@ -95,7 +98,7 @@ class App extends React.Component {
   startTimer = () => {
     this.setState({
       status: 'work',
-      time: 1200,
+      time: this.settings.timeWork,
       timer: setInterval(this.step, 1000),
     });
   };
@@ -119,8 +122,8 @@ class App extends React.Component {
       <Container>
         <Header />
         {(status === 'off') && <TopInformation />}
-        {(status === 'work') && <img src="./images/work.png" />}
-        {(status === 'rest') && <img src="./images/rest.png" />}
+        {(status === 'work') && <img src={this.settings.imageWork} />}
+        {(status === 'rest') && <img src={this.settings.imageRest} />}
         {(status !== 'off') && <div className="timer">{this.formatTime(time)}</div>}
         {(status === 'off') && <button className="btn" onClick={this.startTimer}>Start</button>}
         {(status !== 'off') && <button className="btn" onClick={this.stopTimer}>Stop</button>}
